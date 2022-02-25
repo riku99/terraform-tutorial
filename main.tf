@@ -65,3 +65,5 @@ resource "google_compute_instance" "vm_instance" {
 // terraform show  - リソースの確認
 
 // terraform destroy - リソース削除
+
+# terraform output - outputに指定した値を表示
