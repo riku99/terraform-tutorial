@@ -14,7 +14,7 @@ provider "google" {
   // GCPプロジェクトのサービスアカウントキー
   credentials = file("../../Developer/TerraformTutorial/ServiceAccountKey/terraform-tutorial-342404-0f01196fb921.json")
 
- // プロジェクトID
+  // プロジェクトID
   project = "terraform-tutorial-342404"
   region  = "us-central1"
   zone    = "us-central1-c"
@@ -25,6 +25,25 @@ provider "google" {
 resource "google_compute_network" "vpc_network" {
   // リソースは引数をとり必須のものオプショナルなものそれぞれ存在する。https://registry.terraform.io/providers/hashicorp/google/latest/docs
   name = "terraform-network"
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "terraform-instance"
+  machine_type = "f1-micro"
+  tags         = ["web", "dev"]
+
+  boot_disk {
+    initialize_params {
+      # image = "debian-cloud/debian-9"
+      image = "cos-cloud/cos-stable"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+    }
+  }
 }
 
 
