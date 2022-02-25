@@ -12,12 +12,16 @@ terraform {
 // provider(gcp)を使用するための設定など
 provider "google" {
   // GCPプロジェクトのサービスアカウントキー
-  credentials = file("../../Developer/TerraformTutorial/ServiceAccountKey/terraform-tutorial-342404-0f01196fb921.json")
+  # credentials = file("../../Developer/TerraformTutorial/ServiceAccountKey/terraform-tutorial-342404-0f01196fb921.json")
+  credentials = file(var.credentials_file) // variablesで定義した値を使用
 
   // プロジェクトID
-  project = "terraform-tutorial-342404"
-  region  = "us-central1"
-  zone    = "us-central1-c"
+  # project = "terraform-tutorial-342404"
+  # region  = "us-central1"
+  # zone    = "us-central1-c"
+  project = var.project
+  region = var.region
+  zone = var.zone
 }
 
 // 実際に使用するリソース
@@ -59,3 +63,5 @@ resource "google_compute_instance" "vm_instance" {
 // terraform apply  - 実際にリソースの作成。リソースを管理するための terraform.tfstate が作成される。これはクレデンシャルを含むので取扱注意
 
 // terraform show  - リソースの確認
+
+// terraform destroy - リソース削除
